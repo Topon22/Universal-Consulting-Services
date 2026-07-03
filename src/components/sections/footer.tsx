@@ -17,7 +17,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { COMPANY, NAV_LINKS, SERVICES } from "@/lib/data";
+import { Logo } from "@/components/brand/logo";
+import { COMPANY, NAV_LINKS, SERVICES, LOCATIONS } from "@/lib/data";
 import { toast } from "sonner";
 
 export function Footer() {
@@ -87,27 +88,49 @@ export function Footer() {
         </div>
       </div>
 
+      {/* Locations strip — Norrspark-style offices */}
+      <div className="border-b border-border/60">
+        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+          <div className="flex flex-col items-center gap-5 sm:flex-row sm:items-stretch sm:justify-between">
+            <div className="text-center sm:text-left">
+              <div className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+                Our Locations
+              </div>
+              <h4 className="mt-1 font-serif text-lg font-bold text-foreground">
+                Two offices, one mission
+              </h4>
+            </div>
+            <div className="grid w-full gap-3 sm:grid-cols-2 sm:flex-1 lg:max-w-2xl">
+              {LOCATIONS.map((loc) => (
+                <div
+                  key={loc.label}
+                  className="flex items-center gap-3 rounded-2xl border border-border/60 bg-background/50 p-4"
+                >
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-2xl">
+                    {loc.flag}
+                  </span>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5 font-serif text-sm font-bold text-foreground">
+                      <MapPin className="h-3.5 w-3.5 text-primary" />
+                      {loc.label}
+                    </div>
+                    <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      {loc.role}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Main */}
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="grid gap-10 lg:grid-cols-12">
           {/* Brand */}
           <div className="lg:col-span-4">
-            <Link href="#home" className="flex items-center gap-2.5">
-              <span className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/70 shadow-md">
-                <span className="font-serif text-lg font-bold text-primary-foreground">
-                  U
-                </span>
-                <span className="absolute -right-0.5 -top-0.5 h-3 w-3 rounded-full bg-accent ring-2 ring-background" />
-              </span>
-              <span className="flex flex-col leading-none">
-                <span className="font-serif text-lg font-bold tracking-tight text-foreground">
-                  UCS Group
-                </span>
-                <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-                  Universal Consulting Services
-                </span>
-              </span>
-            </Link>
+            <Logo size={44} variant="footer" />
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-muted-foreground">
               Founded in {COMPANY.founded} by {COMPANY.founder}, UCSG is a trusted
               resource for international students pursuing their education in the

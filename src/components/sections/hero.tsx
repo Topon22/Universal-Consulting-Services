@@ -14,6 +14,7 @@ import {
   Quote,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { MagneticButton } from "@/components/interactive/magnetic-button";
 import { COMPANY } from "@/lib/data";
 
 export function Hero() {
@@ -84,7 +85,7 @@ export function Hero() {
         style={{ y: yContent, opacity }}
         className="mx-auto max-w-7xl px-4 sm:px-6"
       >
-        <div className="mx-auto max-w-4xl text-center">
+        <div className="mx-auto max-w-5xl text-center">
           {/* Eyebrow badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -99,19 +100,20 @@ export function Hero() {
             Founded by a U.S. Army Veteran · Est. {COMPANY.founded}
           </motion.div>
 
-          {/* Headline */}
+          {/* MASSIVE headline — Norrspark-style display type */}
           <motion.h1
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-7 font-serif text-4xl font-bold leading-[1.05] tracking-tight text-foreground sm:text-6xl md:text-7xl"
+            className="mt-7 font-serif font-extrabold leading-[0.95] tracking-tight text-foreground"
+            style={{ fontSize: "clamp(2.75rem, 8vw, 7rem)" }}
           >
-            Your Gateway to a{" "}
+            Your Gateway to{" "}
             <span className="relative inline-block">
               <span className="text-gradient-emerald">U.S. Education</span>
               <motion.svg
                 viewBox="0 0 320 18"
-                className="absolute -bottom-2 left-0 h-3 w-full"
+                className="absolute -bottom-1 left-0 h-3 w-full sm:-bottom-2"
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={{ pathLength: 1, opacity: 1 }}
                 transition={{ duration: 1, delay: 0.9, ease: "easeInOut" }}
@@ -132,7 +134,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="mx-auto mt-8 max-w-2xl text-lg font-medium leading-relaxed text-foreground/90 sm:text-xl"
+            className="mx-auto mt-8 max-w-3xl text-lg font-medium leading-relaxed text-foreground/90 sm:text-xl md:text-2xl"
           >
             {COMPANY.heroHeadline}{" "}
             <span className="font-serif italic text-gradient-gold">
@@ -151,35 +153,39 @@ export function Hero() {
             career pathways — with full support from application to arrival.
           </motion.p>
 
-          {/* CTAs */}
+          {/* CTAs — wrapped in MagneticButton */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
             className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
           >
-            <Button
-              asChild
-              size="lg"
-              className="group h-12 rounded-full bg-primary px-7 text-base shadow-premium hover:shadow-lg"
-            >
-              <Link href="#contact">
-                <Sparkles className="h-4 w-4" />
-                Take a Free Call Now
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="h-12 rounded-full border-border/70 bg-background/60 px-7 text-base backdrop-blur hover:border-primary/40 hover:bg-primary/5"
-            >
-              <Link href="#services">
-                <PlayCircle className="h-4 w-4" />
-                Explore Our Services
-              </Link>
-            </Button>
+            <MagneticButton className="rounded-full">
+              <Button
+                asChild
+                size="lg"
+                className="group h-12 rounded-full bg-primary px-7 text-base font-bold shadow-premium hover:shadow-lg"
+              >
+                <Link href="#contact">
+                  <Sparkles className="h-4 w-4" />
+                  Take a Free Call Now
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </Button>
+            </MagneticButton>
+            <MagneticButton className="rounded-full">
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="h-12 rounded-full border-border/70 bg-background/60 px-7 text-base backdrop-blur hover:border-primary/40 hover:bg-primary/5"
+              >
+                <Link href="#services">
+                  <PlayCircle className="h-4 w-4" />
+                  Explore Our Services
+                </Link>
+              </Button>
+            </MagneticButton>
           </motion.div>
 
           {/* Trust row */}

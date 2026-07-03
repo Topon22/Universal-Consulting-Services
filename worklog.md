@@ -65,3 +65,35 @@
 
 ## Stage Summary
 A complete, premium, fully-animated rebuild of Universal Consulting Services Group is live at `/` on port 3000. 14 sections, emerald/gold design system, Framer Motion throughout (parallax, staggered reveals, count-up stats, carousel, aurora CTA, marquee), dark mode, mobile Sheet menu, end-to-end contact form with Prisma persistence + sonner toasts, sticky footer. Lint clean, dev server healthy, all visual & functional verifications passed via agent-browser + VLM. The site faithfully reflects the *real* UCSG business (study-abroad consulting) rather than the generic business-consulting assumption in the original brief.
+
+---
+
+## Task ID: 4
+## Agent: main
+## Task: Add the official UCSG logo (provided via image link) properly across the website.
+
+## Work Log
+- Downloaded the provided logo (https://i.ibb.co/nNZgLVzn/universalconsultingservices.png) to `public/ucs-logo.png` (2000x2000 RGB PNG, light-gray background).
+- Analyzed it with VLM (z-ai vision): circular emblem — blue globe/network, orange swoosh, green/yellow curved element, upward arrow. No text in mark. Colorful, reads on both light & dark.
+- The source had a light-gray (#E1E5E6) background, not transparent, which would look like a white box on the dark navbar. Processed with Python/PIL to make near-light pixels transparent (alpha=0, with feathered semi-light edges at alpha=128), producing `public/ucs-logo-transparent.png`.
+- Generated a full favicon set from the transparent logo: `favicon.ico`, `favicon-16/32/96.png`, `apple-touch-icon.png` (180).
+- Optimized web-ready logo to 160x160 (20KB, down from 990KB) for fast loading via next/image.
+- Generated a 1200x630 OG image: logo centered on a deep emerald-near-black background.
+- Created a reusable `src/components/brand/logo.tsx` exporting `Logo` (emblem + wordmark lockup, variants: navbar/footer, configurable size, optional href, hover rotate+scale micro-interaction) and `LogoMark` (emblem only).
+- Wired `Logo` into:
+  - `src/components/sections/navbar.tsx` — desktop navbar (size 40) + mobile Sheet menu header (size 36, text-only lockup). Removed the old placeholder "U" gradient chip.
+  - `src/components/sections/footer.tsx` — brand column (size 44, footer variant with "Universal Consulting Services" sub-label). Removed old placeholder.
+- Updated `src/app/layout.tsx` metadata: added `metadataBase`, full `icons` config (favicon set + apple-touch), `manifest`, OG + Twitter `images` pointing to `/og-image.png`.
+- Created `public/site.webmanifest` (PWA manifest with theme color #0c1714, icon set).
+
+## Verification (agent-browser + VLM)
+- Desktop navbar (1440px): VLM confirmed — "colorful circular logo (globe with arrow) visible left of 'UCS Group'. Renders cleanly with transparent background, no white box. Properly sized/aligned, readable, professional."
+- Footer: VLM confirmed — "colorful circular logo/emblem visible next to 'UCS Group'. Renders cleanly with transparent background (no white box)."
+- Mobile menu drawer (390px): VLM confirmed — "colorful circular logo/emblem visible next to 'UCS Group' text, renders cleanly."
+- DOM check: both navbar + footer `<img>` elements loaded `ucs-logo-transparent.png` (naturalWidth 48, complete=true).
+- `agent-browser errors`: none. Console: only pre-existing harmless framer-motion oklch + Radix aria warnings (unrelated to logo).
+- `bun run lint`: zero errors.
+- Dev server: 200 responses, compiles in ~150ms.
+
+## Stage Summary
+The official UCSG emblem is now integrated site-wide with a transparent background (processed from the gray-bg original) so it reads cleanly on both light and dark surfaces. Reusable `Logo`/`LogoMark` components replace the old placeholder "U" chips in the navbar (desktop + mobile) and footer, with a hover rotate+scale micro-interaction. Full favicon set + PWA manifest + OG/Twitter share image wired into metadata. All verified visually via VLM at desktop + mobile widths. Lint clean, dev server healthy on port 3000.

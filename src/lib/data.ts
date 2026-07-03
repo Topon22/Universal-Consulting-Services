@@ -288,6 +288,22 @@ export const TESTIMONIALS: Testimonial[] = [
     location: "Lagos → California",
     initials: "DO",
   },
+  {
+    quote:
+      "From visa prep to landing — UCSG handled every detail. My F1 was approved on the first try and I had housing sorted before I boarded the plane.",
+    name: "Ling Wei",
+    role: "MS Cybersecurity",
+    location: "Shanghai → Boston",
+    initials: "LW",
+  },
+  {
+    quote:
+      "Day-1 CPT changed everything. I kept my remote SWE job while studying and UCSG knew exactly which programs qualified. Genuinely life-changing advice.",
+    name: "Fatima Al-Sayed",
+    role: "BS Aviation Graduate",
+    location: "Dubai → Florida",
+    initials: "FA",
+  },
 ];
 
 export type TeamMember = {
@@ -340,6 +356,31 @@ export const PARTNER_UNIVERSITIES: string[] = [
   "New England College",
   "Merrimack College",
   "Monroe College",
+];
+
+export type OfficeLocation = {
+  city: string;
+  country: string;
+  label: string;
+  role: string;
+  flag: string;
+};
+
+export const LOCATIONS: OfficeLocation[] = [
+  {
+    city: "Delaware",
+    country: "USA",
+    label: "Delaware, USA",
+    role: "Global Headquarters",
+    flag: "🇺🇸",
+  },
+  {
+    city: "Dhaka",
+    country: "Bangladesh",
+    label: "Dhaka, Bangladesh",
+    role: "Regional Partner Office",
+    flag: "🇧🇩",
+  },
 ];
 
 export const FAQS = [

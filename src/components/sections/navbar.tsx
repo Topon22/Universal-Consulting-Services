@@ -13,6 +13,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Logo } from "@/components/brand/logo";
 import { NAV_LINKS, COMPANY } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
@@ -59,22 +60,7 @@ export function Navbar() {
         )}
       >
         {/* Logo */}
-        <Link href="#home" className="group flex items-center gap-2.5">
-          <span className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/70 shadow-md">
-            <span className="font-serif text-lg font-bold text-primary-foreground">
-              U
-            </span>
-            <span className="absolute -right-0.5 -top-0.5 h-3 w-3 rounded-full bg-accent ring-2 ring-background" />
-          </span>
-          <span className="flex flex-col leading-none">
-            <span className="font-serif text-base font-bold tracking-tight text-foreground">
-              UCS Group
-            </span>
-            <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-              Study in the USA
-            </span>
-          </span>
-        </Link>
+        <Logo size={40} />
 
         {/* Desktop links */}
         <div className="hidden items-center gap-1 lg:flex">
@@ -137,11 +123,7 @@ export function Navbar() {
             >
               <div className="flex items-center justify-between border-b border-border/60 p-5">
                 <SheetTitle className="flex items-center gap-2.5">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/70">
-                    <span className="font-serif text-base font-bold text-primary-foreground">
-                      U
-                    </span>
-                  </span>
+                  <Logo size={36} href={undefined} />
                   <span className="font-serif text-base font-bold">UCS Group</span>
                 </SheetTitle>
               </div>
