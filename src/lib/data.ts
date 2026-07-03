@@ -39,14 +39,33 @@ export const COMPANY = {
 } as const;
 
 export const NAV_LINKS = [
-  { label: "Home", href: "#home" },
-  { label: "Services", href: "#services" },
-  { label: "About", href: "#about" },
-  { label: "Why Us", href: "#why-us" },
-  { label: "Process", href: "#process" },
-  { label: "Students", href: "#testimonials" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/?view=services" },
+  { label: "About", href: "/?view=about" },
+  { label: "Why Us", href: "/?view=why-us" },
+  { label: "Process", href: "/?view=process" },
+  { label: "Students", href: "/?view=students" },
+  { label: "Contact", href: "/?view=contact" },
 ] as const;
+
+/**
+ * Maps the 8 SERVICES entries to query-param `?view=` slugs. The first 6
+ * services have their own dedicated detail page; the last two
+ * (College Admission + English School) link back to the Services overview.
+ */
+export const SERVICE_SLUGS: Record<string, string> = {
+  "Study in the USA": "study-in-usa",
+  "College Transfer": "college-transfer",
+  "Scholarships & Discounts": "scholarships",
+  "CPT / OPT Guidance": "cpt-opt",
+  "Visa & Immigration": "visa-immigration",
+  "Pathway Programs": "pathway",
+};
+
+/** Reverse lookup: slug → service title (for the service detail page header). */
+export const SLUG_TO_TITLE: Record<string, string> = Object.fromEntries(
+  Object.entries(SERVICE_SLUGS).map(([title, slug]) => [slug, title])
+);
 
 export type Service = {
   icon: LucideIcon;

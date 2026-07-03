@@ -18,7 +18,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Logo } from "@/components/brand/logo";
-import { COMPANY, NAV_LINKS, SERVICES, LOCATIONS } from "@/lib/data";
+import { COMPANY, NAV_LINKS, SERVICES, LOCATIONS, SERVICE_SLUGS } from "@/lib/data";
 import { toast } from "sonner";
 
 export function Footer() {
@@ -44,10 +44,13 @@ export function Footer() {
     { icon: Youtube, label: "YouTube", href: "https://youtube.com" },
   ];
 
-  const serviceLinks = SERVICES.slice(0, 6).map((s) => ({
-    label: s.title,
-    href: "#services",
-  }));
+  const serviceLinks = SERVICES.map((s) => {
+    const slug = SERVICE_SLUGS[s.title];
+    return {
+      label: s.title,
+      href: slug ? `/?view=${slug}` : "/?view=services",
+    };
+  });
 
   return (
     <footer className="relative mt-auto overflow-hidden border-t border-border/60 bg-secondary/40">
@@ -130,7 +133,7 @@ export function Footer() {
         <div className="grid gap-10 lg:grid-cols-12">
           {/* Brand */}
           <div className="lg:col-span-4">
-            <Logo size={44} variant="footer" />
+            <Logo size={44} variant="footer" href="/" />
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-muted-foreground">
               Founded in {COMPANY.founded} by {COMPANY.founder}, UCSG is a trusted
               resource for international students pursuing their education in the
@@ -192,7 +195,7 @@ export function Footer() {
                   asChild
                   className="mt-3 h-9 w-full rounded-full text-sm"
                 >
-                  <Link href="#contact">Get Started</Link>
+                  <Link href="/?view=contact">Get Started</Link>
                 </Button>
               </div>
             </div>
@@ -213,7 +216,11 @@ export function Footer() {
             for international students
           </div>
           <a
-            href="#home"
+            href="#top"
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
             className="flex items-center gap-1.5 rounded-full border border-border/70 px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
           >
             Back to top

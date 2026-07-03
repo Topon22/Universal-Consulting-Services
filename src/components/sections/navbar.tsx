@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { Menu, Phone, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -17,32 +18,66 @@ import { Logo } from "@/components/brand/logo";
 import { NAV_LINKS, COMPANY } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
+/**
+ * View-aware active link logic.
+ *
+ * - On the landing page (`/` with no `?view=`), the "Home" link is active.
+ * - On any sub-page, the matching nav link (by `?view=` param) is active.
+ *
+ * Reads `useSearchParams` so it stays in sync after client-side navigation.
+ */
+function useActiveHref(): string {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const view = searchParams.get("view");
+  if (pathname !== "/") return "/";
+  if (!view) return "/";
+  // Find the matching nav link href.
+  const match = NAV_LINKS.find((l) => l.href.includes(`view=${view}`));
+  return match?.href ?? "/";
+}
+
+function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
+  const activeHref = useActiveHref();
+  return (
+    <div className="hidden items-center gap-1 lg:flex">
+      {NAV_LINKS.map((link) => {
+        const isActive = activeHref === link.href;
+        return (
+          <Link
+            key={link.href}
+            href={link.href}
+            onClick={onNavigate}
+            className={cn(
+              "relative rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
+              isActive
+                ? "text-primary"
+                : "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            {link.label}
+            {isActive && (
+              <motion.span
+                layoutId="nav-active"
+                className="absolute inset-0 -z-10 rounded-full bg-primary/10"
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
+
 export function Navbar() {
   const [scrolled, setScrolled] = React.useState(false);
-  const [active, setActive] = React.useState<string>("#home");
   const [open, setOpen] = React.useState(false);
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (v) => {
     setScrolled(v > 24);
   });
-
-  /* Scroll spy */
-  React.useEffect(() => {
-    const sections = NAV_LINKS.map((l) => document.querySelector(l.href)).filter(
-      Boolean
-    ) as HTMLElement[];
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActive(`#${entry.target.id}`);
-        });
-      },
-      { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
-    );
-    sections.forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <motion.header
@@ -59,33 +94,13 @@ export function Navbar() {
             : "border border-transparent bg-transparent"
         )}
       >
-        {/* Logo */}
-        <Logo size={40} />
+        {/* Logo — always links home */}
+        <Logo size={40} href="/" />
 
         {/* Desktop links */}
-        <div className="hidden items-center gap-1 lg:flex">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(
-                "relative rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
-                active === link.href
-                  ? "text-primary"
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              {link.label}
-              {active === link.href && (
-                <motion.span
-                  layoutId="nav-active"
-                  className="absolute inset-0 -z-10 rounded-full bg-primary/10"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                />
-              )}
-            </Link>
-          ))}
-        </div>
+        <React.Suspense fallback={<div className="hidden lg:block" />}>
+          <NavLinks />
+        </React.Suspense>
 
         {/* Right actions */}
         <div className="flex items-center gap-2">
@@ -101,7 +116,7 @@ export function Navbar() {
             asChild
             className="hidden rounded-full bg-primary px-5 text-sm shadow-sm hover:shadow-md md:inline-flex"
           >
-            <Link href="#contact">
+            <Link href="/?view=contact">
               <Sparkles className="h-3.5 w-3.5" />
               Free Consultation
             </Link>
@@ -123,7 +138,7 @@ export function Navbar() {
             >
               <div className="flex items-center justify-between border-b border-border/60 p-5">
                 <SheetTitle className="flex items-center gap-2.5">
-                  <Logo size={36} href={undefined} />
+                  <Logo size={36} href="/" />
                   <span className="font-serif text-base font-bold">UCS Group</span>
                 </SheetTitle>
               </div>
@@ -151,7 +166,7 @@ export function Navbar() {
               <div className="mt-auto space-y-3 border-t border-border/60 p-5">
                 <Button asChild className="w-full rounded-xl">
                   <SheetClose asChild>
-                    <Link href="#contact">
+                    <Link href="/?view=contact">
                       <Sparkles className="h-4 w-4" />
                       Free Consultation
                     </Link>
