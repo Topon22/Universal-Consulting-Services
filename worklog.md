@@ -122,3 +122,28 @@ The official UCSG emblem is now integrated site-wide with a transparent backgrou
 
 ## Stage Summary
 Project successfully pushed to https://github.com/Topon22/Universal-Consulting-Services (branch `main`, 5 commits, 141 tracked files). Sensitive files (`.env`, `db/custom.db`) removed from tracking and kept local; `.env.example` added for documentation. Remote URL is clean (no embedded token). Local and remote are in sync. Dev server still healthy on port 3000; lint clean.
+
+---
+
+## Task ID: 7
+## Agent: main
+## Task: Wire up the separate webpages (the page components existed from Task 5 but were never routed).
+
+## Work Log
+- Diagnosed the real problem: Task 5's subagent built `services-page.tsx`, `about-page.tsx`, `why-us-page.tsx`, `process-page.tsx`, `students-page.tsx`, `contact-page.tsx`, `page-shell.tsx`, `landing-page.tsx`, and `service-details.ts` (6 rich service-detail data records) — BUT `src/app/page.tsx` was never updated. It still rendered the landing page directly, so clicking Services/About/etc. in the navbar went to `/?view=services` which just re-rendered the landing page. No `ServicePage` component existed for the 6 individual service detail pages either.
+- Verified all supporting infra was already in place: `NAV_LINKS` uses `?view=` hrefs, navbar uses `useSearchParams` for active state, `SERVICE_SLUGS` + `SLUG_TO_TITLE` exist in data.ts, `@/components/animation` exports Reveal/StaggerGroup/staggerItem/SectionHeading, accordion UI component exists, PageShell/PageHero/CTASection are well-built.
+- **Built `src/components/pages/service-page.tsx`** — a rich ServicePage component taking a `slug` prop, looking up `SERVICE_DETAILS[slug]`, and rendering: PageHero (icon, title, tagline, breadcrumb Home › Services › <title>, CTAs), Overview + highlight stat card, Benefits grid (6 cards w/ icons + hover), Who It's For + What's Included (two-column checklists), numbered Process steps with connector lines, FAQ accordion (shadcn Accordion), "Still have questions?" callout, Related services cards (link to other ?view= slugs), CTASection. Includes fallback for unknown slug.
+- **Rewrote `src/app/page.tsx`** as an async server component reading `searchParams.view`, switching to the right page component (LandingPage default, ServicesPage/AboutPage/WhyUsPage/ProcessPage/StudentsPage/ContactPage for named views, ServicePage for the 6 service slugs). Added `generateMetadata()` for per-page SEO titles + descriptions (service detail pages use the service's heroSubtitle).
+
+## Verification (agent-browser + curl)
+- `curl` all 13 routes → all returned **200**: `/`, `/?view=services`, `about`, `why-us`, `process`, `students`, `contact`, `study-in-usa`, `college-transfer`, `scholarships`, `cpt-opt`, `visa-immigration`, `pathway`.
+- Services page: title "Services | Universal Consulting Services Group", H1 "Everything you need to study in the USA", navbar+footer+2 logos present, 4506 chars.
+- Service detail (study-in-usa): H1 "Study in the USA", 7 H2 sections confirmed (Key benefits, Is this the right service for you?, Everything in your package, The process step by step, Questions answered, Related services, Ready to start Study in the USA?), 5 FAQs, breadcrumb with 2 links, 6759px scroll height, 9 sections.
+- Nav click: clicked "About" in navbar → navigated to `/?view=about`, H1 "A trusted resource for international students" rendered. Client-side routing works.
+- Contact page: H1 "Talk to a counselor today", 21 form fields. E2E submission: filled all fields + selects → Send Inquiry → success state ("Thank you") + Prisma INSERT confirmed in dev log (`POST /api/contact 200`).
+- Mobile (390px): services page scrollWidth === clientWidth (no horizontal overflow), text readable, cards stacked. VLM confirmed "properly responsive".
+- `agent-browser errors`: none.
+- `bun run lint`: zero errors.
+
+## Stage Summary
+All 13 separate webpages now actually route and render. The missing ServicePage component was built (rich detail pages for the 6 services), and page.tsx was rewritten as the query-param router with per-page SEO metadata. Navbar links navigate client-side between pages; breadcrumbs work; contact form still persists to Prisma; mobile responsive; lint clean. Committed as `f4239ac` and pushed to GitHub (origin/main now at f4239ac).
