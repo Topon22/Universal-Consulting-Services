@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
@@ -129,16 +130,31 @@ export function AboutPage() {
                   style={{ y: yImg }}
                   className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-border/60 shadow-premium"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/85 to-primary/60" />
-                  <div className="absolute inset-0 opacity-30 mix-blend-overlay grid-pattern" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent" />
+                  {/* Founder portrait (fills the panel) */}
+                  <Image
+                    src="/team/joy-chowdhury.png"
+                    alt={`Portrait of ${COMPANY.founder}, Founder & Managing Director`}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 480px"
+                    priority
+                    className="object-cover object-top"
+                  />
+                  {/* Tint + readability overlays */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/85 via-primary/20 to-transparent" />
+                  <div className="absolute inset-0 opacity-20 mix-blend-overlay grid-pattern" />
 
                   {/* Founder glass quote card */}
                   <div className="absolute inset-x-6 bottom-6">
                     <div className="glass rounded-2xl p-5 shadow-premium">
                       <div className="flex items-center gap-3">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-accent to-accent/70 font-serif text-lg font-bold text-accent-foreground">
-                          JC
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-accent to-accent/70 font-serif text-lg font-bold text-accent-foreground ring-2 ring-background/60">
+                          <Image
+                            src="/team/joy-chowdhury-sm.png"
+                            alt=""
+                            fill
+                            sizes="48px"
+                            className="object-cover object-top"
+                          />
                         </div>
                         <div>
                           <div className="font-serif text-base font-bold text-foreground">

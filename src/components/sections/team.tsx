@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Linkedin, Mail, BadgeCheck } from "lucide-react";
 import { TEAM } from "@/lib/data";
@@ -35,9 +36,21 @@ export function Team() {
                 <div className="absolute inset-0 grid-pattern opacity-20" />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent" />
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <div className="flex h-24 w-24 items-center justify-center rounded-full border-4 border-background/90 bg-gradient-to-br from-accent to-accent/70 font-serif text-3xl font-bold text-accent-foreground shadow-lg">
-                    {member.initials}
-                  </div>
+                  {member.image ? (
+                    <div className="relative h-24 w-24 overflow-hidden rounded-full border-4 border-background/90 shadow-lg ring-2 ring-accent/40">
+                      <Image
+                        src={member.image}
+                        alt={`Portrait of ${member.name}, ${member.role}`}
+                        fill
+                        sizes="96px"
+                        className="object-cover object-top"
+                      />
+                    </div>
+                  ) : (
+                    <div className="flex h-24 w-24 items-center justify-center rounded-full border-4 border-background/90 bg-gradient-to-br from-accent to-accent/70 font-serif text-3xl font-bold text-accent-foreground shadow-lg">
+                      {member.initials}
+                    </div>
+                  )}
                 </div>
                 <div className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-background/80 px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-primary backdrop-blur">
                   <BadgeCheck className="h-3 w-3" />

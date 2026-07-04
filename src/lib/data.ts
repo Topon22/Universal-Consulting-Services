@@ -331,6 +331,9 @@ export type TeamMember = {
   bio: string;
   initials: string;
   highlights: string[];
+  /** Optional portrait path (relative to /public). When set, the team card
+   *  renders the photo instead of the initials avatar. */
+  image?: string;
 };
 
 export const TEAM: TeamMember[] = [
@@ -340,6 +343,7 @@ export const TEAM: TeamMember[] = [
     bio: "Multilingual U.S. Army veteran, former student government president, and respected community leader who founded UCSG in 2022 to make U.S. education accessible to every international student.",
     initials: "JC",
     highlights: ["U.S. Army Veteran", "Multilingual", "Community Leader"],
+    image: "/team/joy-chowdhury.png",
   },
   {
     name: "Sadia Karim",
