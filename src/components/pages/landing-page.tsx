@@ -11,7 +11,6 @@ import { Stats } from "@/components/sections/stats";
 import { Process } from "@/components/sections/process";
 import { WhoWeServe } from "@/components/sections/who-we-serve";
 import { Testimonials } from "@/components/sections/testimonials";
-import { Cases } from "@/components/sections/cases";
 import { Team } from "@/components/sections/team";
 import { CTA } from "@/components/sections/cta";
 import { Contact } from "@/components/sections/contact";
@@ -42,7 +41,6 @@ export function LandingPage() {
         <Process />
         <WhoWeServe />
         <Testimonials />
-        <Cases />
         <Team />
         <CTA />
         <Contact />

@@ -25,7 +25,7 @@ export function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="relative overflow-hidden py-20 sm:py-28"
+      className="relative overflow-hidden py-14 sm:py-20"
     >
       <div className="absolute inset-0 -z-10 mesh-bg opacity-40" />
 

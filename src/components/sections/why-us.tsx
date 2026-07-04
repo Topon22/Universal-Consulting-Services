@@ -14,7 +14,7 @@ export function WhyUs() {
   return (
     <section
       id="why-us"
-      className="relative overflow-hidden bg-secondary/30 py-24 sm:py-32"
+      className="relative overflow-hidden bg-secondary/30 py-16 sm:py-20"
     >
       <div className="absolute inset-0 -z-10 grid-pattern opacity-40" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
@@ -29,7 +29,7 @@ export function WhyUs() {
           description="We're not just another agency. UCSG was engineered from the ground up to put students first — with proprietary tooling, onshore support, and counselors who genuinely care."
         />
 
-        <StaggerGroup className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <StaggerGroup className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {WHY_US.map((feature, i) => (
             <motion.article
               key={feature.title}
@@ -71,7 +71,7 @@ export function WhyUs() {
             </h3>
           </Reveal>
 
-          <StaggerGroup className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
+          <StaggerGroup className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
             {[
               {
                 icon: WHY_US[1].icon,

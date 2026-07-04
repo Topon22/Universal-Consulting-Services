@@ -10,7 +10,6 @@ import {
   Send,
   Loader2,
   CheckCircle2,
-  ChevronDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,7 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { COMPANY, INTEREST_OPTIONS, ENGLISH_LEVELS, FAQS } from "@/lib/data";
+import { COMPANY, INTEREST_OPTIONS, ENGLISH_LEVELS } from "@/lib/data";
 import { Reveal } from "@/components/animation";
 import { cn } from "@/lib/utils";
 
@@ -56,7 +55,6 @@ export function Contact() {
   const [loading, setLoading] = React.useState(false);
   const [done, setDone] = React.useState(false);
   const [errors, setErrors] = React.useState<Partial<Record<keyof FormState, string>>>({});
-  const [openFaq, setOpenFaq] = React.useState<number | null>(0);
 
   const update = (key: keyof FormState, value: string) => {
     setForm((p) => ({ ...p, [key]: value }));
@@ -182,56 +180,6 @@ export function Contact() {
                     <div key={c.label}>{Inner}</div>
                   );
                 })}
-              </div>
-            </Reveal>
-
-            {/* FAQ */}
-            <Reveal delay={0.32}>
-              <div className="mt-10">
-                <h3 className="font-serif text-lg font-bold text-foreground">
-                  Frequently asked
-                </h3>
-                <div className="mt-4 space-y-2">
-                  {FAQS.map((faq, i) => {
-                    const isOpen = openFaq === i;
-                    return (
-                      <div
-                        key={faq.q}
-                        className="overflow-hidden rounded-xl border border-border/60 bg-card"
-                      >
-                        <button
-                          onClick={() => setOpenFaq(isOpen ? null : i)}
-                          className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left"
-                          aria-expanded={isOpen}
-                        >
-                          <span className="text-sm font-semibold text-foreground">
-                            {faq.q}
-                          </span>
-                          <ChevronDown
-                            className={cn(
-                              "h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-300",
-                              isOpen && "rotate-180 text-primary"
-                            )}
-                          />
-                        </button>
-                        <AnimatePresence initial={false}>
-                          {isOpen && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                            >
-                              <p className="px-4 pb-4 text-sm leading-relaxed text-muted-foreground">
-                                {faq.a}
-                              </p>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    );
-                  })}
-                </div>
               </div>
             </Reveal>
           </div>

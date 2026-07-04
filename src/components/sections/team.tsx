@@ -8,7 +8,7 @@ import { SectionHeading, StaggerGroup, staggerItem } from "@/components/animatio
 
 export function Team() {
   return (
-    <section id="team" className="relative py-24 sm:py-32">
+    <section id="team" className="relative py-16 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading
           eyebrow="Leadership"
