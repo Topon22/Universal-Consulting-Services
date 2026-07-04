@@ -147,3 +147,41 @@ Project successfully pushed to https://github.com/Topon22/Universal-Consulting-S
 
 ## Stage Summary
 All 13 separate webpages now actually route and render. The missing ServicePage component was built (rich detail pages for the 6 services), and page.tsx was rewritten as the query-param router with per-page SEO metadata. Navbar links navigate client-side between pages; breadcrumbs work; contact form still persists to Prisma; mobile responsive; lint clean. Committed as `f4239ac` and pushed to GitHub (origin/main now at f4239ac).
+
+---
+
+## Task ID: 8
+## Agent: main
+## Task: Recheck all commands, follow brand color from logo, add chatbot using z-ai free API.
+
+## Work Log
+### 1. Recheck (all commands first)
+- `git status` → clean working tree.
+- `bun run lint` → zero errors.
+- Dev server → HTTP 200 on `/`.
+- All 13 routes (`/` + 6 nav pages + 6 service detail pages) → 200.
+- Everything healthy before changes.
+
+### 2. Brand color alignment (from logo)
+- Extracted dominant colors from `public/ucs-logo-transparent.png` via Python/PIL pixel analysis on opaque pixels. Top buckets: `#004080` (deep royal blue, globe+arrow), `#002060`, `#c04020`/`#e08020` (warm orange, swoosh). Brand = **royal blue primary + warm orange accent**.
+- User explicitly requested brand colors → blue is now user-specified (overriding the default "avoid indigo/blue" guideline).
+- Rewrote `src/app/globals.css`: primary = oklch royal blue (hue 265, L~0.40 light / 0.65 dark), accent = oklch warm orange (hue 60). Updated all theme tokens (ring, chart, sidebar), mesh-bg, grid-pattern, glass border, scrollbar, gradient-text utilities to the new palette. Kept `.text-gradient-emerald`/`.text-gradient-gold` class names so no component edits needed.
+- VLM verified on hero: "primary CTA button is a medium/bright royal blue; 'We've got you covered' accent text is vibrant orange". First attempt read as teal (hue 255 too cyan) — deepened to hue 265 and re-verified → confirmed royal blue + orange.
+
+### 3. AI Chatbot (free z-ai-web-dev-sdk LLM)
+- Loaded the LLM skill for correct SDK usage.
+- **Backend** `src/app/api/chat/route.ts`: POST handler, runtime=nodejs, maxDuration=60. UCSG-specific system prompt (counselor persona, services knowledge, founder info, contact details, guidelines: concise, multilingual-aware, route leads to free consultation, never invent specifics). Sanitizes messages (role/content, 2000-char cap, last-12-turns context). Graceful error fallback returns a helpful message with phone/email. Uses `zai.chat.completions.create({ messages, thinking: { type: "disabled" } })`.
+- **Frontend** `src/components/interactive/chat-widget.tsx`: floating launcher bottom-LEFT (avoids conflict with the bottom-RIGHT contact dock). Polished panel: gradient header with "UCSG Assistant" + online status + reset/close, message list with auto-scroll, greeting message, quick-suggestion chips (4 starter questions), animated typing dots, message bubbles (user=blue, assistant=card), footer quick-contact (contact form + phone), textarea input with Enter-to-send, mobile fullscreen mode, ping indicator on launcher after 6s.
+- Wired into both `LandingPage` and `PageShell` (all sub-pages).
+- Fixed import bug: hook is `useIsMobile` not `useMobile` (caused a 500 build error; fixed immediately).
+
+### Verification (agent-browser + VLM + curl)
+- All 13 routes return 200 after changes.
+- Chat launcher present on landing + sub-pages.
+- E2E chat test: typed "What is CPT and how does it help me?" → clicked send → `POST /api/chat 200 in 4.6s` → received detailed on-brand CPT explanation ending with "Would you like to start a free consultation to learn more?" (exactly as the system prompt instructed).
+- VLM confirmed chat panel design: "polished with blue/orange brand colors and distinct message bubbles".
+- VLM confirmed brand colors: royal blue primary + warm orange accent on hero.
+- `agent-browser errors`: none. `bun run lint`: zero errors.
+
+## Stage Summary
+Site now follows the official UCSG brand colors (royal blue #004080 family primary + warm orange #e08020 family accent) extracted directly from the logo. A free AI chatbot (z-ai-web-dev-sdk LLM) is live site-wide via a floating bottom-left widget — backend at `/api/chat` with a UCSG counselor system prompt, frontend with polished message bubbles, typing indicator, quick suggestions, and quick-contact footer. End-to-end verified working. Committed as `937222c` and pushed to GitHub (origin/main now at 937222c).
