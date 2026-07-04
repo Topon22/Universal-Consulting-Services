@@ -1,0 +1,29 @@
+# Local development logs / runtime artifacts
+*.log
+dev.log
+server.log
+dev.out.log
+
+# Local SQLite database (ephemeral on Vercel — use a managed DB instead)
+db/*.db
+db/*.db-journal
+
+# Local environment / secrets
+.env
+.env.local
+.env.*.local
+.z-ai-config
+
+# Sandbox / tooling (not needed for deploy)
+.zscripts
+agent-ctx
+download
+examples
+mini-services
+skills
+
+# OS / editor
+.DS_Store
+*.swp
+.idea
+.vscode

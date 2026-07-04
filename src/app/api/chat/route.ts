@@ -49,6 +49,74 @@ Remember: students come first. Be the helpful first step on their U.S. education
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
+/**
+ * Generate the assistant reply.
+ *
+ * Supports two modes so the chatbot works both locally (via the
+ * z-ai-web-dev-sdk reading ~/.z-ai-config) and on Vercel (via direct
+ * fetch using ZAI_* env vars, since Vercel serverless can't read the
+ * config file).
+ *
+ * 1. Env-var mode (Vercel / production): if ZAI_BASE_URL + ZAI_API_KEY
+ *    are set, do a direct fetch to the z-ai chat completions endpoint.
+ * 2. SDK mode (local dev): fall back to ZAI.create() which reads the
+ *    .z-ai-config file.
+ */
+async function generateReply(
+  messages: ChatMessage[]
+): Promise<string> {
+  const envBaseUrl = process.env.ZAI_BASE_URL;
+  const envApiKey = process.env.ZAI_API_KEY;
+  const envChatId = process.env.ZAI_CHAT_ID;
+  const envUserId = process.env.ZAI_USER_ID;
+  const envToken = process.env.ZAI_TOKEN;
+
+  /* ---- Mode 1: direct fetch (Vercel) ---- */
+  if (envBaseUrl && envApiKey) {
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${envApiKey}`,
+      "X-Z-AI-From": "Z",
+    };
+    if (envChatId) headers["X-Chat-Id"] = envChatId;
+    if (envUserId) headers["X-User-Id"] = envUserId;
+    if (envToken) headers["X-Token"] = envToken;
+
+    const res = await fetch(`${envBaseUrl}/chat/completions`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        messages,
+        thinking: { type: "disabled" },
+      }),
+    });
+
+    if (!res.ok) {
+      const errText = await res.text().catch(() => "");
+      throw new Error(
+        `z-ai API request failed (${res.status}): ${errText.slice(0, 300)}`
+      );
+    }
+
+    const data = await res.json();
+    return (
+      data?.choices?.[0]?.message?.content?.trim() ||
+      "I'm sorry, I couldn't generate a response just now."
+    );
+  }
+
+  /* ---- Mode 2: SDK (local dev with .z-ai-config) ---- */
+  const zai = await ZAI.create();
+  const completion = await zai.chat.completions.create({
+    messages: messages as never,
+    thinking: { type: "disabled" },
+  });
+  return (
+    completion?.choices?.[0]?.message?.content?.trim() ||
+    "I'm sorry, I couldn't generate a response just now."
+  );
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json().catch(() => null);
@@ -90,19 +158,12 @@ export async function POST(request: Request) {
       );
     }
 
-    const zai = await ZAI.create();
+    const fullMessages = [
+      { role: "assistant", content: SYSTEM_PROMPT },
+      ...sanitized,
+    ];
 
-    const completion = await zai.chat.completions.create({
-      messages: [
-        { role: "assistant", content: SYSTEM_PROMPT },
-        ...sanitized,
-      ] as never,
-      thinking: { type: "disabled" },
-    });
-
-    const reply =
-      completion?.choices?.[0]?.message?.content?.trim() ||
-      "I'm sorry, I couldn't generate a response just now. Please try again, or call us at +1 (302) 893-5594.";
+    const reply = await generateReply(fullMessages);
 
     return NextResponse.json({
       reply,
