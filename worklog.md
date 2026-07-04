@@ -223,3 +223,44 @@ Site now follows the official UCSG brand colors (royal blue #004080 family prima
 
 ## Stage Summary
 Repo is now Vercel-ready. One-click deploy button in README (clone + auto-detect Next.js). Chatbot works on Vercel via ZAI_* env vars (direct fetch) and locally via .z-ai-config (SDK). Prisma client auto-generated on install via postinstall. Contact form persists best-effort (works on Vercel even without a DB; Postgres needed to capture leads — documented). All pushed to https://github.com/Topon22/Universal-Consulting-Services (main @ ec22712).
+
+---
+
+## Task ID: 10
+## Agent: main
+## Task: Recheck UX and reduce excessive scrolling.
+
+## Work Log
+### Audit (before)
+- Landing page measured at **15,135px** tall — far too much scrolling.
+- Section breakdown identified the worst offenders:
+  - Process: 2,220px (sticky-scroll storytelling — biggest hog)
+  - Why Us: 1,569px
+  - Testimonials (1,075) + Cases (1,173) = 2,248px combined, redundant (both show student success stories)
+  - Contact: 1,218px (form + inline FAQ)
+  - Team: 1,042px, About: 990px (over-padded)
+
+### Reductions made
+1. **Process section rebuilt** (2,220px → 774px, saved 1,446px): replaced the tall sticky-scroll storytelling with a compact interactive tabbed stepper — 4 clickable step tabs in a row + a single detail panel that swaps via AnimatePresence. All rich content preserved (icon, title, description, bullet points, deliverable, duration, prev/next nav, CTA on last step). Verified: clicking a step tab instantly swaps the panel content. VLM confirmed "compact, interactive, polished, all key info visible without excessive scrolling".
+2. **Removed redundant Cases section from landing** (saved 1,173px): "Real students. Real outcomes." duplicated Testimonials' "Real journeys. Real success." Kept Testimonials carousel; removed `<Cases/>` from landing only (component file retained). Cases detail lives on the Students page for depth.
+3. **Removed inline FAQ from landing Contact section** (1,218px → 1,090px, saved 128px): FAQs already live on the dedicated /?view=contact page. Cleaned up unused openFaq state, ChevronDown, FAQS imports.
+4. **Tightened section vertical padding** (saved ~570px combined):
+   - Why Us: py-24/32 → py-16/20, mt-16 → mt-10, mt-12 → mt-8
+   - About: py-24/32 → py-16/20
+   - Team: py-24/32 → py-16/20
+   - Testimonials: py-20/28 → py-14/20
+
+### Result
+- **Landing page: 15,135px → 12,014px** (saved 3,121px, ~21% less scrolling)
+- All content preserved — just restructured for compactness (Process) and de-duplicated (Cases).
+- No console errors, no layout shift.
+
+### Verification
+- `bun run lint`: zero errors.
+- All 13 routes: 200.
+- Process interactivity: clicked "Apply" tab → panel swapped from "Discover" to "Apply" instantly. ✓
+- VLM confirmed Process section is "compact, interactive, polished".
+- agent-browser errors: none.
+
+## Stage Summary
+Landing page scrolling reduced by ~21% (15,135px → 12,014px) without losing content. The biggest win was rebuilding the Process section from a 2,220px sticky-scroll into a 774px interactive tabbed stepper (click a step → detail panel swaps). Also removed the redundant Cases section (Testimonials covers the same ground) and the inline Contact FAQ (lives on the contact page). Tightened vertical padding on Why Us, About, Team, Testimonials. Committed as `0d65dce`, pushed to GitHub (origin/main in sync).
