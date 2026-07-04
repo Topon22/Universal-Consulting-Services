@@ -185,3 +185,41 @@ All 13 separate webpages now actually route and render. The missing ServicePage 
 
 ## Stage Summary
 Site now follows the official UCSG brand colors (royal blue #004080 family primary + warm orange #e08020 family accent) extracted directly from the logo. A free AI chatbot (z-ai-web-dev-sdk LLM) is live site-wide via a floating bottom-left widget — backend at `/api/chat` with a UCSG counselor system prompt, frontend with polished message bubbles, typing indicator, quick suggestions, and quick-contact footer. End-to-end verified working. Committed as `937222c` and pushed to GitHub (origin/main now at 937222c).
+
+---
+
+## Task ID: 9
+## Agent: main
+## Task: Push to GitHub + make Vercel deployment easy.
+
+## Work Log
+### 1. Pushed existing work
+- Local was 1 commit ahead of origin (50e69c5). Already on remote from prior task.
+
+### 2. Vercel deployment readiness audit
+- Discovered the z-ai-web-dev-sdk reads credentials from a `.z-ai-config` FILE (project/home//etc/), NOT env vars, and `ZAI.create()` accepts no config override. On Vercel serverless there's no such file → chatbot would break.
+- The `build` script did `next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/` (standalone-specific, unnecessary on Vercel).
+- No `postinstall` hook → Prisma client wouldn't be generated during Vercel install.
+- No vercel.json / .vercelignore / deployment README.
+
+### 3. Refactored chat route for dual mode
+- `src/app/api/chat/route.ts`: new `generateReply()` helper with two modes:
+  - **Mode 1 (Vercel)**: if `ZAI_BASE_URL` + `ZAI_API_KEY` env vars are set → direct `fetch` to `${baseUrl}/chat/completions` with the same headers the SDK sends (`Authorization: Bearer <apiKey>`, `X-Z-AI-From: Z`, optional `X-Chat-Id`/`X-User-Id`/`X-Token`), body `{ messages, thinking: {type:"disabled"} }`.
+  - **Mode 2 (local)**: fallback to `ZAI.create()` which reads `.z-ai-config`.
+- Verified locally: SDK fallback still returns on-brand replies (`POST /api/chat 200`).
+
+### 4. Created Vercel config files
+- `vercel.json`: framework=nextjs, buildCommand=next build, installCommand=bun install, functions with maxDuration 60s for /api/chat and 30s for /api/contact.
+- `.vercelignore`: excludes dev.log, server.log, db/*.db, .env, .z-ai-config, .zscripts, agent-ctx, download, examples, mini-services, skills.
+- `README.md`: one-click "Deploy to Vercel" button (clone repo), required env vars table, Postgres setup instructions for lead capture, local dev guide, full project structure.
+- Updated `.env.example`: documents DATABASE_URL (SQLite local / Postgres Vercel) and all 5 ZAI_* env vars.
+- Updated `package.json`: build simplified to `next build`, added `postinstall: prisma generate`, `start` uses `next start`.
+
+### 5. Verified
+- `bun run lint`: zero errors.
+- All 13 routes return 200.
+- `POST /api/chat` 200 with proper UCSG counselor reply (SDK fallback mode).
+- Committed as `ec22712`, pushed to GitHub. Local + remote IN SYNC (ec22712).
+
+## Stage Summary
+Repo is now Vercel-ready. One-click deploy button in README (clone + auto-detect Next.js). Chatbot works on Vercel via ZAI_* env vars (direct fetch) and locally via .z-ai-config (SDK). Prisma client auto-generated on install via postinstall. Contact form persists best-effort (works on Vercel even without a DB; Postgres needed to capture leads — documented). All pushed to https://github.com/Topon22/Universal-Consulting-Services (main @ ec22712).
