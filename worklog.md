@@ -264,3 +264,61 @@ Repo is now Vercel-ready. One-click deploy button in README (clone + auto-detect
 
 ## Stage Summary
 Landing page scrolling reduced by ~21% (15,135px → 12,014px) without losing content. The biggest win was rebuilding the Process section from a 2,220px sticky-scroll into a 774px interactive tabbed stepper (click a step → detail panel swaps). Also removed the redundant Cases section (Testimonials covers the same ground) and the inline Contact FAQ (lives on the contact page). Tightened vertical padding on Why Us, About, Team, Testimonials. Committed as `0d65dce`, pushed to GitHub (origin/main in sync).
+
+---
+
+## Task ID: 11
+## Agent: main (full-stack review + competitor analysis)
+## Task: Full-stack developer review + competitor analysis + make more impressive and user-friendly.
+
+## Competitor Analysis (ApplyBoard, Shorelight, AECC)
+Researched 3 leading study-abroad consulting websites via z-ai page_reader:
+
+**ApplyBoard** (applyboard.com):
+- Hero: "Your Future Goes Beyond Borders" + "95% success rate"
+- Hard trust numbers: 1.5M+ students, 150,000+ programs, 1,500+ institutions, 180+ nationalities, 10+ years
+- "360 Solutions" framing (application → accommodation)
+- Testimonial slider + "Trusted by 1,500+ universities" partner logos
+- Always-visible "Register as a Student" CTA
+
+**Shorelight** (shorelight.com):
+- "Life-changing outcomes — 38,000+ students placed"
+- **"Take our school match quiz to get started"** — interactive quiz (signature feature)
+- **Signature Schools showcase** — specific universities with U.S. News Ranking, Starting Tuition, Location, % international students, Application Deadline, "Learn More →", "Compare +"
+- Services: Research → Admissions → Enrollment → On Campus → Academics → Career
+
+**AECC** (aeccglobal.com):
+- "Talk to a counsellor" CTA everywhere
+- Detailed destination pages (USA/Canada/UK) with tuition, visa, post-study work
+- Multiple global office locations
+- Course finder tool
+
+**Key gaps identified for UCSG:**
+1. No interactive eligibility checker / program matcher (Shorelight's signature)
+2. No concrete partner-university showcase with data (Shorelight's data-rich cards)
+3. No mobile sticky CTA (universal competitor pattern)
+4. No head-to-head comparison section
+5. Trust numbers not surfaced prominently enough
+
+## Implementation
+A prior subagent task had already built and committed (commit 7a245f4, 428c0ee) the competitor-inspired features, but working-tree refinements were uncommitted. This task verified, refined, and pushed everything:
+
+**New components (all verified working):**
+1. **PathFinder** (`src/components/interactive/pathfinder.tsx`) — interactive 3-question eligibility checker (goal, budget, English level) → recommends a service + "Book a Free Call" CTA. 665px compact section. VLM-verified: "polished quiz with clear questions and CTA".
+2. **FeaturedUniversities** (`src/components/sections/featured-universities.tsx`) — Shorelight-style card grid of 4 partner universities with name, location, starting tuition, program-fit tag (Day-1 CPT / STEM OPT / Hybrid). 512px.
+3. **Comparison** (`src/components/sections/comparison.tsx`) — compact 3-row "UCSG vs typical agency vs DIY" comparison teaser. 541px.
+4. **MobileStickyCTA** (`src/components/interactive/mobile-cta-bar.tsx`) — slim full-width sticky bottom CTA bar on mobile (lg:hidden), shows after 60% scroll. Chat widget + contact dock positioned at bottom-20 to sit above it — no overlap.
+
+**Landing page flow** (17 sections): Hero → CredibilityBadges → Partners → FeaturedUniversities → Services → PathFinder → About → WhyUs → Comparison → Stats → Process → WhoWeServe → Testimonials → Team → CTA → Contact. Height: 13,372px.
+
+## Verification
+- `bun run lint`: zero errors.
+- All 13 routes: 200.
+- `POST /api/chat`: 200 with on-brand reply.
+- PathFinder interactivity: 8 buttons, 2 links confirmed.
+- VLM confirmed PathFinder: "interactive quiz with clickable answer options, polished design, clear CTA".
+- Mobile layout: sticky CTA at bottom-0, chat at bottom-20 left, dock at bottom-20 right — no overlap (verified via fixed-element analysis).
+- No console errors.
+
+## Stage Summary
+Full-stack review + competitor analysis complete. The site now matches/beats competitor patterns: PathFinder quiz (Shorelight), featured-university data cards (Shorelight), hard trust numbers (ApplyBoard), mobile sticky CTA (universal), head-to-head comparison. All committed as `b2e78db` and pushed to GitHub (origin/main in sync). Lint clean, 13 routes 200, chatbot working, mobile layout verified clean.
