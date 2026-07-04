@@ -8,7 +8,7 @@ import { SectionHeading, StaggerGroup, staggerItem } from "@/components/animatio
 
 export function Team() {
   return (
-    <section id="team" className="relative py-16 sm:py-20">
+    <section id="team" className="relative py-12 sm:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading
           eyebrow="Leadership"
@@ -21,7 +21,7 @@ export function Team() {
           description="Multilingual counselors, U.S. veterans, and admissions strategists — united by one mission: your success in the United States."
         />
 
-        <StaggerGroup className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <StaggerGroup className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {TEAM.map((member) => (
             <motion.article
               key={member.name}

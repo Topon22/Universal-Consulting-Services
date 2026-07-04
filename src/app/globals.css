@@ -132,6 +132,12 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
   }
+  html,
+  body {
+    /* Prevent horizontal scroll from marquee tracks / long email strings /
+       decorative negative-position blobs. Vertical scroll is unaffected. */
+    overflow-x: clip;
+  }
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "ss01", "cv11";

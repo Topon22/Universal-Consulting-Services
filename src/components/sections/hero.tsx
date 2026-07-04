@@ -188,28 +188,31 @@ export function Hero() {
             </MagneticButton>
           </motion.div>
 
-          {/* Trust row */}
+          {/* Trust row — punchy, single-line, hard numbers (competitor-style) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-muted-foreground"
+            className="mx-auto mt-10 flex max-w-3xl flex-wrap items-center justify-center gap-x-2 gap-y-2 text-sm sm:gap-x-3"
           >
-            <span className="flex items-center gap-1.5">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/50 px-3 py-1.5 font-semibold text-foreground backdrop-blur">
               <ShieldCheck className="h-4 w-4 text-primary" />
-              Trusted by 5,000+ students
+              <span className="font-serif text-base font-bold text-primary">5,000+</span>
+              <span className="text-muted-foreground">students placed</span>
             </span>
-            <span className="flex items-center gap-1.5">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/50 px-3 py-1.5 font-semibold text-foreground backdrop-blur">
+              <Globe2 className="h-4 w-4 text-primary" />
+              <span className="font-serif text-base font-bold text-primary">120+</span>
+              <span className="text-muted-foreground">partner schools</span>
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/50 px-3 py-1.5 font-semibold text-foreground backdrop-blur">
               <div className="flex">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star key={i} className="h-3.5 w-3.5 fill-accent text-accent" />
                 ))}
               </div>
-              98% satisfaction rate
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Globe2 className="h-4 w-4 text-primary" />
-              40+ countries served
+              <span className="font-serif text-base font-bold text-primary">98%</span>
+              <span className="text-muted-foreground">satisfaction</span>
             </span>
           </motion.div>
         </div>

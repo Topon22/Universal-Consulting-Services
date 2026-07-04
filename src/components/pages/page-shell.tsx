@@ -9,6 +9,7 @@ import { Footer } from "@/components/sections/footer";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { ContactDock } from "@/components/interactive/contact-dock";
 import { ChatWidget } from "@/components/interactive/chat-widget";
+import { MobileStickyCTA } from "@/components/interactive/mobile-cta-bar";
 import { cn } from "@/lib/utils";
 
 /**
@@ -35,6 +36,7 @@ export function PageShell({ children }: { children: React.ReactNode }) {
       <Footer />
       <ContactDock />
       <ChatWidget />
+      <MobileStickyCTA />
     </div>
   );
 }

@@ -89,7 +89,7 @@ export function ContactDock() {
 
   return (
     <div
-      className="fixed bottom-5 right-5 z-[70] flex flex-col items-end gap-2.5 lg:bottom-7 lg:right-7"
+      className="fixed bottom-20 right-5 z-[70] flex flex-col items-end gap-2.5 lg:bottom-7 lg:right-7"
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
     >

@@ -30,7 +30,7 @@ export function About() {
     <section
       id="about"
       ref={ref}
-      className="relative overflow-hidden py-16 sm:py-20"
+      className="relative overflow-hidden py-12 sm:py-16"
     >
       <div className="absolute inset-0 -z-10 mesh-bg opacity-50" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6">

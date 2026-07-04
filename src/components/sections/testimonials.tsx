@@ -25,7 +25,7 @@ export function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="relative overflow-hidden py-14 sm:py-20"
+      className="relative overflow-hidden py-12 sm:py-16"
     >
       <div className="absolute inset-0 -z-10 mesh-bg opacity-40" />
 
@@ -41,7 +41,7 @@ export function Testimonials() {
           description="Thousands of students have trusted UCSG with their U.S. education. Here's what a few of them have to say — all verified 5-star reviews."
         />
 
-        <StaggerGroup className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <StaggerGroup className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {TESTIMONIALS.map((t) => (
             <motion.article
               key={t.name}

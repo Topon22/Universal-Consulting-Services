@@ -141,7 +141,7 @@ export function ChatWidget() {
             }}
             aria-label="Open UCSG Assistant chat"
             className={cn(
-              "fixed bottom-5 left-5 z-[70] flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-premium transition-transform hover:scale-105 lg:bottom-7 lg:left-7",
+              "fixed bottom-20 left-5 z-[70] flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-premium transition-transform hover:scale-105 lg:bottom-7 lg:left-7",
               unread && "animate-floaty"
             )}
           >

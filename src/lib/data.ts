@@ -377,6 +377,85 @@ export const PARTNER_UNIVERSITIES: string[] = [
   "Monroe College",
 ];
 
+/**
+ * A curated subset of partner universities shown as scannable cards on the
+ * landing page (Shorelight-style: name + location + starting tuition + a
+ * program-fit tag). Numbers are representative starting tuition for
+ * international graduate students at these partner institutions and are
+ * shown as ballpark figures to set expectations — the PathFinder widget
+ * and a free call give the precise figure.
+ */
+export type FeaturedUniversity = {
+  name: string;
+  location: string;
+  tuitionFrom: string;
+  tag: "Day-1 CPT" | "Hybrid" | "STEM OPT" | "Scholarship Track";
+  blurb: string;
+};
+
+export const FEATURED_UNIVERSITIES: FeaturedUniversity[] = [
+  {
+    name: "Harrisburg University",
+    location: "Harrisburg, PA",
+    tuitionFrom: "$9,900/yr",
+    tag: "STEM OPT",
+    blurb: "STEM-designated MS programs with strong tech industry pipeline.",
+  },
+  {
+    name: "Trine University",
+    location: "Angola, IN",
+    tuitionFrom: "$12,500/yr",
+    tag: "Day-1 CPT",
+    blurb: "Day-1 CPT graduate programs built for working professionals.",
+  },
+  {
+    name: "Campbellsville University",
+    location: "Campbellsville, KY",
+    tuitionFrom: "$8,500/yr",
+    tag: "Hybrid",
+    blurb: "Affordable hybrid programs with flexible intakes year-round.",
+  },
+  {
+    name: "Westcliff University",
+    location: "Irvine, CA",
+    tuitionFrom: "$11,200/yr",
+    tag: "Day-1 CPT",
+    blurb: "California-based CPT programs with online + on-campus format.",
+  },
+];
+
+/**
+ * Compact "UCSG vs others" comparison teaser shown on the landing page.
+ * Surfaces the dedicated Why Us page with a 3-row head-to-head.
+ */
+export type ComparisonRow = {
+  factor: string;
+  ucsg: string;
+  typicalAgency: string;
+  diy: string;
+};
+
+export const COMPARISON: ComparisonRow[] = [
+  {
+    factor: "Onshore U.S. support after you land",
+    ucsg: "Delaware office, in-person aftercare",
+    typicalAgency: "Phone-only, offshore team",
+    diy: "You're on your own",
+  },
+  {
+    factor: "CPT / OPT program expertise",
+    ucsg: "Day-1 CPT & STEM-OPT specialists",
+    typicalAgency: "Generic admission help",
+    diy: "Hours of confusing research",
+  },
+  {
+    factor: "Counselor who speaks your language",
+    ucsg: "Multilingual, onsite + online",
+    typicalAgency: "Often English-only",
+    diy: "No counselor at all",
+  },
+];
+
 export type OfficeLocation = {
   city: string;
   country: string;

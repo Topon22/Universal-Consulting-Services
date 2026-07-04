@@ -14,7 +14,7 @@ export function WhyUs() {
   return (
     <section
       id="why-us"
-      className="relative overflow-hidden bg-secondary/30 py-16 sm:py-20"
+      className="relative overflow-hidden bg-secondary/30 py-12 sm:py-16"
     >
       <div className="absolute inset-0 -z-10 grid-pattern opacity-40" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
@@ -29,14 +29,14 @@ export function WhyUs() {
           description="We're not just another agency. UCSG was engineered from the ground up to put students first — with proprietary tooling, onshore support, and counselors who genuinely care."
         />
 
-        <StaggerGroup className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <StaggerGroup className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {WHY_US.map((feature, i) => (
             <motion.article
               key={feature.title}
               variants={staggerItem}
               whileHover={{ y: -6 }}
               transition={{ type: "spring", stiffness: 300, damping: 22 }}
-              className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card p-7 shadow-premium"
+              className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card p-6 shadow-premium"
             >
               {/* Number watermark */}
               <span className="pointer-events-none absolute right-4 top-2 font-serif text-6xl font-bold text-foreground/5">
@@ -60,7 +60,7 @@ export function WhyUs() {
         </StaggerGroup>
 
         {/* Mission & Vision row */}
-        <div className="mt-24">
+        <div className="mt-16">
           <Reveal className="text-center">
             <span className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-accent-foreground">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />

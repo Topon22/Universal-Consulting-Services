@@ -14,6 +14,7 @@ import {
   Mail,
   ArrowUp,
   Heart,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -57,17 +58,22 @@ export function Footer() {
       <div className="absolute inset-0 -z-10 grid-pattern opacity-30" />
       <div className="absolute -top-24 left-1/2 -z-10 h-48 w-[80%] -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
 
-      {/* Newsletter */}
+      {/* Newsletter / lead magnet */}
       <div className="border-b border-border/60">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
           <div className="grid items-center gap-6 rounded-3xl border border-border/60 bg-card p-6 shadow-sm sm:p-8 lg:grid-cols-2 lg:gap-10">
             <div>
-              <h3 className="font-serif text-2xl font-bold text-foreground sm:text-3xl">
-                Stay ahead of your U.S. education journey
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-accent-foreground">
+                <Sparkles className="h-3.5 w-3.5" />
+                Free lead magnet
+              </span>
+              <h3 className="mt-3 font-serif text-2xl font-bold text-foreground sm:text-3xl">
+                Get the Free U.S. Education Checklist
               </h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                Scholarship alerts, CPT/OPT updates, and admissions tips — straight
-                to your inbox. No spam, ever.
+                A 12-point pre-departure checklist plus scholarship alerts,
+                CPT/OPT updates, and admissions tips — straight to your inbox.
+                No spam, ever.
               </p>
             </div>
             <form onSubmit={onSubscribe} className="flex flex-col gap-3 sm:flex-row">
@@ -84,7 +90,7 @@ export function Footer() {
                 className="h-12 rounded-full bg-primary px-6 font-semibold shadow-premium hover:shadow-lg"
               >
                 <Send className="h-4 w-4" />
-                Subscribe
+                Send my checklist
               </Button>
             </form>
           </div>
@@ -205,7 +211,7 @@ export function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-border/60">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-6 sm:flex-row sm:px-6">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-6 pb-24 sm:flex-row sm:px-6 lg:pb-6">
           <p className="text-center text-xs text-muted-foreground sm:text-left">
             © {new Date().getFullYear()} Universal Consulting Services Group. All
             rights reserved.

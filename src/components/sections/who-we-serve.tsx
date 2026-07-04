@@ -53,7 +53,7 @@ const AUDIENCES = [
 
 export function WhoWeServe() {
   return (
-    <section className="relative py-24 sm:py-32">
+    <section className="relative py-12 sm:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading
           eyebrow="Who We Serve"
@@ -66,7 +66,7 @@ export function WhoWeServe() {
           description="Whatever your background or goal, we tailor a U.S. pathway that fits your budget, timeline, and ambition."
         />
 
-        <StaggerGroup className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <StaggerGroup className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {AUDIENCES.map((a) => (
             <motion.div
               key={a.title}
