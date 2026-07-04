@@ -8,6 +8,7 @@ import { Navbar } from "@/components/sections/navbar";
 import { Footer } from "@/components/sections/footer";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { ContactDock } from "@/components/interactive/contact-dock";
+import { ChatWidget } from "@/components/interactive/chat-widget";
 import { cn } from "@/lib/utils";
 
 /**
@@ -33,6 +34,7 @@ export function PageShell({ children }: { children: React.ReactNode }) {
       <main className="flex-1 pt-20">{children}</main>
       <Footer />
       <ContactDock />
+      <ChatWidget />
     </div>
   );
 }

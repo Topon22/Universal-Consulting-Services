@@ -19,6 +19,7 @@ import { Footer } from "@/components/sections/footer";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { CustomCursor } from "@/components/interactive/custom-cursor";
 import { ContactDock } from "@/components/interactive/contact-dock";
+import { ChatWidget } from "@/components/interactive/chat-widget";
 
 /**
  * Landing page = the original 14-section experience, assembled here so that
@@ -48,6 +49,7 @@ export function LandingPage() {
       </main>
       <Footer />
       <ContactDock />
+      <ChatWidget />
     </div>
   );
 }
